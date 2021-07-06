@@ -1,8 +1,9 @@
 import { AxiosResponse } from "axios";
 import { prints } from "./api";
-import { CardList } from "./api/common.types";
+import { Card } from "./api/card.types";
 import { CardCount } from "./deck.types";
 import fs from "fs";
+import { ScryList } from "./api/common.types";
 
 export function decklistToCardCounts(contents: string): CardCount[] {
     const words = contents
@@ -23,7 +24,7 @@ export function readDecklistFile(path: string): CardCount[] {
 
 export function attachCardPayloads(
     cards: CardCount[]
-): Promise<CardCount & { scryfall: AxiosResponse<CardList> }>[] {
+): Promise<CardCount & { scryfall: AxiosResponse<ScryList<Card>> }>[] {
     return cards.map(({ count, name }) => {
         return prints(name).then(x => ({
             count,
